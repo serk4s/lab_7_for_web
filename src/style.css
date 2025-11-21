@@ -1,0 +1,274 @@
+/* --- Глобальные переменные (High-End Design / Monochromatic) --- */
+:root {
+    /* Цвета светлой темы */
+    --main-bg: #F9F9F9;        /* Теплый, почти белый фон */
+    --text-color: #111111;     /* Очень темный, строгий текст */
+    --accent-color: #000000;   /* Черный для всех линий и акцентов */
+    --primary-color: #000000;  /* Активный цвет (черный) */
+    --danger-color: #FF0000;   /* Красный для удаления */
+    --border-width: 1px;
+}
+
+/* Цвета темной темы (Строгая инверсия) */
+body.dark-theme {
+    --main-bg: #111111;
+    --text-color: #F0F0F0;
+    --accent-color: #FFFFFF;
+    --primary-color: #FFFFFF;
+    --danger-color: #FF6666;
+}
+
+/* --- ОСНОВНЫЕ СТИЛИ И ТИПОГРАФИКА --- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Oswald', 'Arial Narrow', sans-serif;
+    line-height: 1.4;
+    background-color: var(--main-bg);
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 0;
+}
+
+#app {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+}
+
+h1, h2 {
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+}
+
+/* Общее оформление блоков */
+.todo-container,
+.auth-page,
+.about {
+    background: var(--main-bg);
+    border: none;
+    box-shadow: none;
+    margin: 0;
+}
+
+/* --- НАВИГАЦИЯ (АССИМЕТРИЧНЫЙ ВЕРХНИЙ БЛОК) --- */
+nav {
+    background: var(--main-bg);
+    border: none;
+    box-shadow: none;
+    border-bottom: var(--border-width) solid var(--accent-color);
+    padding: 15px 40px;
+
+    /* Использование Grid для Асимметрии: 4 колонки */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    grid-column: 3 / 4;
+    justify-content: flex-end;
+}
+
+.right-side {
+    grid-column: 4 / 5;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0;
+    border-bottom: var(--border-width) solid transparent;
+    transition: border-bottom-color 0.2s, color 0.2s;
+}
+
+nav a:hover,
+nav a.router-link-active {
+    color: var(--text-color);
+    border-bottom-color: var(--text-color);
+}
+
+/* --- ФОРМЫ И ИНПУТЫ --- */
+input {
+    border: var(--border-width) solid var(--accent-color);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 12px;
+    font-family: inherit;
+    background: transparent;
+    text-transform: none;
+
+    /* ДОБАВЛЕНО: Заставляет инпут занимать все свободное место в Flex-контейнере */
+    flex-grow: 1;
+}
+input:focus {
+    border-color: var(--text-color);
+    box-shadow: none;
+}
+
+/* --- КНОПКИ --- */
+button {
+    border: var(--border-width) solid var(--accent-color);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--main-bg);
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 10px 18px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+button:hover {
+    background-color: var(--accent-color);
+    color: var(--main-bg);
+    box-shadow: none;
+}
+
+.user-actions button {
+    font-size: 0.75rem;
+}
+
+/* --- TODO LIST (ФИНАЛЬНАЯ АСИММЕТРИЯ В СТИЛЕ ABOUT PAGE) --- */
+.todo-container {
+    /* Гарантированная ширина центральной колонки 700px */
+    display: grid;
+    grid-template-columns: 1fr 700px 1fr;
+    gap: 30px;
+    padding: 60px 40px;
+    min-height: 80vh;
+}
+
+/* Заголовок "СПИСОК ЗАДАЧ" */
+.todo-header {
+    grid-column: 2 / 3;
+    text-align: left;
+    padding-top: 0;
+}
+.todo-header h1 {
+    margin-bottom: 25px;
+}
+
+/* Вся рабочая область (форма + список) */
+.todo-workspace {
+    grid-column: 2 / 3; /* Занимает всю колонку 2 (700px) */
+    padding-bottom: 40px;
+    border-right: none;
+    padding-right: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+/* Группа ввода задачи (инпут + кнопка) */
+.input-group {
+    display: flex;
+    gap: 15px;
+    width: 100%; /* Растягивается на всю ширину 700px */
+    margin-bottom: 40px;
+}
+
+/* Список задач */
+.todo-list {
+    list-style: none;
+    padding: 0;
+    width: 100%; /* Растягивается на всю ширину 700px */
+    margin-left: 0;
+}
+
+.todo-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: var(--border-width) solid var(--accent-color);
+}
+
+.todo-list li span {
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: none;
+    text-align: left;
+}
+
+.todo-list li.completed span {
+    text-decoration-color: var(--danger-color);
+    color: var(--accent-color);
+    opacity: 0.6;
+}
+
+.action-btn {
+    border: none;
+    padding: 5px;
+    font-size: 1.1rem;
+}
+.action-btn:hover {
+    color: var(--danger-color);
+    background: none;
+}
+
+/* --- СТИЛИ ДЛЯ ABOUT PAGE (Финальная асимметрия - Исправленная) --- */
+.about {
+    /* 1-я колонка (1fr): Левый отступ
+       2-я колонка (700px): Центральный текст и заголовок
+       3-я колонка (200px): Блок "Особенности" */
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, 700px) 200px 1fr;
+    gap: 30px;
+    padding: 60px 40px;
+    min-height: 80vh;
+}
+
+/* 1. Заголовок "О ПРОЕКТЕ" (H1) */
+.about-header {
+    grid-column: 2 / 3; /* В центральной (700px) колонке */
+    text-align: left;   /* Выравнивание по левому краю (относительно центрального бокса) */
+    margin-bottom: 30px;
+    padding-top: 0;
+}
+
+/* 2. Основной текст (О приложении) - БОКС ПО ЦЕНТРУ */
+.about-main-text {
+    grid-column: 2 / 3; /* В центральной колонке */
+    font-size: 1.2rem;
+    line-height: 1.8;
+    padding: 20px 0;
+}
+
+/* 3. Блок "Особенности" - СМЕЩАЕМ ВПРАВО, ПРИВЯЗЫВАЕМ К ПРАВОМУ КРАЮ ЦЕНТРАЛЬНОГО ТЕКСТА */
+.about-details {
+    grid-column: 3 / 4; /* В колонке 3 (200px) */
+
+    /* Сдвигаем вниз, чтобы не пересекался с заголовком и основным текстом */
+    margin-top: 150px;
+
+    border-left: var(--border-width) solid var(--accent-color); /* Вертикальная линия */
+    padding-left: 30px;
+
+    font-size: 0.9rem;
+    line-height: 1.6;
+    align-self: start;
+
+    /* Убираем старую линию, чтобы она не мешала */
+    border-right: none;
+    padding-right: 0;
+}
